@@ -1,0 +1,6 @@
+@WAF_HostAddress = http://localhost:5280
+
+GET {{WAF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

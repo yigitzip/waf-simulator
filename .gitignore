@@ -1,36 +1,77 @@
-# Build output
+# =========================
+# .NET / ASP.NET Core
+# =========================
+
 bin/
 obj/
 
-# Visual Studio
 .vs/
 *.user
 *.suo
 *.userosscache
 *.sln.docstates
 
-# Visual Studio Code
+appsettings.Local.json
+
+
+# =========================
+# Java / Spring Boot / Maven
+# =========================
+
+target/
+*.class
+
+*.iml
+.idea/
+
+application-local.properties
+application-local.yml
+application-local.yaml
+
+
+# =========================
+# Angular / Node
+# =========================
+
+node_modules/
+dist/
+.angular/
+
+
+# =========================
+# VS Code
+# =========================
+
 .vscode/
 
-# Rider / JetBrains
-.idea/
-*.sln.iml
 
-# OS files
-.DS_Store
-Thumbs.db
+# =========================
+# Environment / Secrets
+# =========================
 
-# Logs
-*.log
-
-# Local environment / secrets
 .env
 .env.*
 !.env.example
 
-# ASP.NET Core local settings
-appsettings.Local.json
 
-# Test / coverage output
+# =========================
+# Logs
+# =========================
+
+*.log
+
+
+# =========================
+# Test / Coverage
+# =========================
+
 TestResults/
 coverage/
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db

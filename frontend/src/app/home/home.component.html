@@ -1,0 +1,129 @@
+<div class="home-container">
+
+  <img
+    src="https://i.imgflip.com/1hx5mc.jpg"
+    alt="Home image"
+    class="home-image"
+  >
+
+  <h1>Welcome</h1>
+
+
+  <!-- Comment -->
+  <div class="feature-section">
+    <h2>Leave a Comment</h2>
+
+    <form [formGroup]="commentForm" (ngSubmit)="onComment()">
+
+      <textarea
+        formControlName="comment"
+        placeholder="Write your comment..."
+      ></textarea>
+
+      <button type="submit">Submit Comment</button>
+
+    </form>
+
+    @if (commentResponse) {
+      <div class="response">
+        {{ commentResponse }}
+      </div>
+    }
+  </div>
+
+
+  <!-- Search -->
+  <div class="feature-section">
+    <h2>Search</h2>
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+
+      <input
+        type="text"
+        formControlName="query"
+        placeholder="Search..."
+      >
+
+      <button type="submit">Search</button>
+
+    </form>
+
+    @if (searchResponse) {
+      <div class="response">
+        {{ searchResponse }}
+      </div>
+    }
+  </div>
+
+
+  <!-- File Reader -->
+  <div class="feature-section">
+    <h2>File Viewer</h2>
+
+    <form [formGroup]="fileForm" (ngSubmit)="onFileRequest()">
+
+      <input
+        type="text"
+        formControlName="path"
+        placeholder="Enter file path..."
+      >
+
+      <button type="submit">View File</button>
+
+    </form>
+
+    @if (fileResponse) {
+      <div class="response">
+        {{ fileResponse }}
+      </div>
+    }
+  </div>
+
+
+  <!-- Command -->
+  <div class="feature-section">
+    <h2>Command Console</h2>
+
+    <form [formGroup]="commandForm" (ngSubmit)="onCommand()">
+
+      <input
+        type="text"
+        formControlName="command"
+        placeholder="Enter command..."
+      >
+
+      <button type="submit">Run</button>
+
+    </form>
+
+    @if (commandResponse) {
+      <div class="response">
+        {{ commandResponse }}
+      </div>
+    }
+  </div>
+
+</div>
+
+@if (showPopup) {
+  <div class="popup-overlay">
+    <div class="popup">
+
+       <img
+        src="https://media.tenor.com/JYyzR_1h77MAAAAi/angry-emoji.gif"
+        alt="WAF Warning"
+        class="popup-image"
+      >
+
+      <p>{{ popupMessage }}</p>
+
+      @if (sqlInjectionDetected) {
+        <p>SQL Injection detected</p>
+      }
+
+      <button type="button" (click)="showPopup = false; sqlInjectionDetected = false">
+        Close
+      </button>
+    </div>
+  </div>
+}

@@ -9,6 +9,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<SQLiRule>();
+builder.Services.AddSingleton<XssRule>();
+builder.Services.AddSingleton<PathTraversalRule>();
 builder.Services.AddSingleton<WafEngine>();
 
 builder.Services.AddHttpClient();

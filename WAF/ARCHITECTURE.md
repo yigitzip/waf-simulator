@@ -20,7 +20,7 @@
                        ▼
               ┌─────────────────┐
               │ SQLi Detection  │
-              │      Rule       │
+              │  and XSS Rules  │
               └────────┬────────┘
                        │
                  ┌─────┴─────┐
@@ -51,10 +51,16 @@
 - Şüpheli SQL sözdizimi desenlerini arar
 - Parametre ve input validasyonu yapar
 
+#### XSS Detection Rule (Mevcut ⭐)
+- Script etiketlerini, javascript URI'lerini ve yaygın event-handler payload'larını tespit eder
+- HTML ve URL encoded payload'ları normalize ederek kontrol eder
+
+#### Path Traversal Detection Rule (Mevcut ⭐)
+- `../` ve `..\` gibi üst dizine çıkma denemelerini tespit eder
+- URL encoded ve çok katmanlı encoded payload'ları normalize ederek kontrol eder
+
 #### Diğer Detection Rules (Gelecek ⏳)
-- XSS (Cross-Site Scripting) Detection
 - CSRF Protection
-- Path Traversal Detection
 - Command Injection Detection
 - Rate Limiting & DoS Protection
 

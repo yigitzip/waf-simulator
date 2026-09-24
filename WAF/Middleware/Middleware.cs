@@ -51,9 +51,11 @@ public class WafMiddleware
         };
 
         // WAF Engine
-        var sqlInjectionDetected = _wafEngine.ProcessRequest(wafRequest);
+        var sqlInjectionDetected = _wafEngine.HasSqlInjectionAttempt(wafRequest);
+        var xssDetected = _wafEngine.HasXssAttempt(wafRequest);
+        var pathTraversalDetected = _wafEngine.HasPathTraversalAttempt(wafRequest);
 
-        if (sqlInjectionDetected)
+        if (sqlInjectionDetected || xssDetected || pathTraversalDetected)
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             context.Response.ContentType = "application/json";
@@ -61,7 +63,9 @@ public class WafMiddleware
             var blockedResponse = new
             {
                 message = "Request blocked by WAF",
-                sqlInjectionDetected = true,
+                sqlInjectionDetected = sqlInjectionDetected,
+                xssDetected = xssDetected,
+                pathTraversalDetected = pathTraversalDetected,
             };
 
             var blockedJson = System.Text.Json.JsonSerializer.Serialize(blockedResponse);

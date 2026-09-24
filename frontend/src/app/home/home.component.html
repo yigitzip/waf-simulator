@@ -106,24 +106,38 @@
 </div>
 
 @if (showPopup) {
+
   <div class="popup-overlay">
     <div class="popup">
 
-       <img
-        src="https://media.tenor.com/JYyzR_1h77MAAAAi/angry-emoji.gif"
-        alt="WAF Warning"
-        class="popup-image"
-      >
+  <img
+    src="https://media.tenor.com/JYyzR_1h77MAAAAi/angry-emoji.gif"
+    alt="WAF Warning"
+    class="popup-image"
+  >
 
-      <p>{{ popupMessage }}</p>
+  <p>{{ popupMessage }}</p>
 
-      @if (sqlInjectionDetected) {
-        <p>SQL Injection detected</p>
-      }
+  @if (sqlInjectionDetected) {
+    <p>SQL Injection detected</p>
+  }
 
-      <button type="button" (click)="showPopup = false; sqlInjectionDetected = false">
-        Close
-      </button>
-    </div>
+  @if (xssDetected) {
+    <p>XSS detected</p>
+  }
+
+  @if (pathTraversalDetected) {
+    <p>Path Traversal detected</p>
+  }
+
+  <button
+    type="button"
+    (click)="showPopup = false; sqlInjectionDetected = false; xssDetected = false; pathTraversalDetected = false"
+  >
+    Close
+  </button>
+
+</div>
+
   </div>
 }

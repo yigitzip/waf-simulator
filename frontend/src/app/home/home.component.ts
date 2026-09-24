@@ -38,6 +38,8 @@ export class HomeComponent {
   constructor(private simulatorService: SimulatorService) {}
 
   sqlInjectionDetected = false;
+  xssDetected = false;
+  pathTraversalDetected = false;
   popupMessage = '';
   showPopup = false;
 
@@ -99,6 +101,8 @@ onComment() {
 
     this.popupMessage = wafResponse.message;
     this.sqlInjectionDetected = wafResponse.sqlInjectionDetected;
+    this.xssDetected = wafResponse.xssDetected;
+    this.pathTraversalDetected = wafResponse.pathTraversalDetected;
     this.showPopup = true;
   }
 }

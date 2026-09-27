@@ -40,6 +40,7 @@ export class HomeComponent {
   sqlInjectionDetected = false;
   xssDetected = false;
   pathTraversalDetected = false;
+  commandInjectionDetected = false;
   popupMessage = '';
   showPopup = false;
 
@@ -103,6 +104,7 @@ onComment() {
     this.sqlInjectionDetected = wafResponse.sqlInjectionDetected;
     this.xssDetected = wafResponse.xssDetected;
     this.pathTraversalDetected = wafResponse.pathTraversalDetected;
+    this.commandInjectionDetected = wafResponse.commandInjectionDetected;
     this.showPopup = true;
   }
 }

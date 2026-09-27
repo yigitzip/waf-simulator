@@ -130,9 +130,13 @@
     <p>Path Traversal detected</p>
   }
 
+  @if (commandInjectionDetected) {
+    <p>Command Injection detected</p>
+  }
+
   <button
     type="button"
-    (click)="showPopup = false; sqlInjectionDetected = false; xssDetected = false; pathTraversalDetected = false"
+    (click)="showPopup = false; sqlInjectionDetected = false; xssDetected = false; pathTraversalDetected = false; commandInjectionDetected = false;"
   >
     Close
   </button>

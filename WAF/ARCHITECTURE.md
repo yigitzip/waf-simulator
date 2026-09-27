@@ -59,9 +59,12 @@
 - `../` ve `..\` gibi üst dizine çıkma denemelerini tespit eder
 - URL encoded ve çok katmanlı encoded payload'ları normalize ederek kontrol eder
 
+#### Command Injection Detection Rule (Mevcut ⭐)
+- Shell metacharacter'larıyla birleştirilmiş komutları ve yaygın komut çalıştırıcıları tespit eder
+- URL encoded payload'ları normalize ederek kontrol eder
+
 #### Diğer Detection Rules (Gelecek ⏳)
 - CSRF Protection
-- Command Injection Detection
 - Rate Limiting & DoS Protection
 
 ### 4. Karar Noktası (Decision Point)

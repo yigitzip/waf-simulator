@@ -1,6 +1,7 @@
 using System.Text;
 using WAF.Engine;
 using WAF.Models;
+using WAF.Services;
 
 public class WafMiddleware
 {
@@ -8,21 +9,41 @@ public class WafMiddleware
     private readonly WafEngine _wafEngine;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<WafMiddleware> _logger;
+    private readonly BanService _banService;
 
     public WafMiddleware(
         RequestDelegate next,
         WafEngine wafEngine,
         IHttpClientFactory httpClientFactory,
-        ILogger<WafMiddleware> logger)
+        ILogger<WafMiddleware> logger,
+        BanService banService)
     {
         _next = next;
         _wafEngine = wafEngine;
         _httpClientFactory = httpClientFactory;
         _logger = logger;
+        _banService = banService;
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
+        var ipAddress = context.Connection.RemoteIpAddress?
+            .MapToIPv4()
+            .ToString() ?? "unknown";
+        var banStatus = _banService.GetStatus(ipAddress);
+
+        if (banStatus.IsBanned)
+        {
+            await WriteBlockedResponseAsync(
+                context,
+                false,
+                false,
+                false,
+                false,
+                banStatus);
+            return;
+        }
+
         // enable buffering to allow reading the request body multiple times
         context.Request.EnableBuffering();
 
@@ -61,20 +82,14 @@ public class WafMiddleware
             pathTraversalDetected ||
             commandInjectionDetected)
         {
-            context.Response.StatusCode = StatusCodes.Status403Forbidden;
-            context.Response.ContentType = "application/json";
-
-            var blockedResponse = new
-            {
-                message = "Request blocked by WAF",
-                sqlInjectionDetected = sqlInjectionDetected,
-                xssDetected = xssDetected,
-                pathTraversalDetected = pathTraversalDetected,
-                commandInjectionDetected = commandInjectionDetected,
-            };
-
-            var blockedJson = System.Text.Json.JsonSerializer.Serialize(blockedResponse);
-            await context.Response.WriteAsync(blockedJson);
+            banStatus = _banService.RegisterAttack(ipAddress);
+            await WriteBlockedResponseAsync(
+                context,
+                sqlInjectionDetected,
+                xssDetected,
+                pathTraversalDetected,
+                commandInjectionDetected,
+                banStatus);
             return;
         }
 
@@ -181,5 +196,34 @@ public class WafMiddleware
 
         await context.Response.Body.WriteAsync(responseBody);
 
+    }
+
+    private static async Task WriteBlockedResponseAsync(
+        HttpContext context,
+        bool sqlInjectionDetected,
+        bool xssDetected,
+        bool pathTraversalDetected,
+        bool commandInjectionDetected,
+        BanStatus banStatus)
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        context.Response.ContentType = "application/json";
+
+        var blockedResponse = new
+        {
+            message = banStatus.IsBanned
+                ? "You are banned for a minute!"
+                : "Request blocked by WAF",
+            sqlInjectionDetected,
+            xssDetected,
+            pathTraversalDetected,
+            commandInjectionDetected,
+            isBanned = banStatus.IsBanned,
+            remainingBanSeconds = banStatus.RemainingBanSeconds,
+            attackCount = banStatus.AttackCount
+        };
+
+        var blockedJson = System.Text.Json.JsonSerializer.Serialize(blockedResponse);
+        await context.Response.WriteAsync(blockedJson);
     }
 }

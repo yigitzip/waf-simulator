@@ -1,5 +1,6 @@
 using WAF.Engine;
 using WAF.Rules;
+using WAF.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<XssRule>();
 builder.Services.AddSingleton<PathTraversalRule>();
 builder.Services.AddSingleton<CommandInjectionRule>();
 builder.Services.AddSingleton<WafEngine>();
+builder.Services.AddSingleton<BanService>();
 
 builder.Services.AddHttpClient();
 

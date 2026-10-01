@@ -35,8 +35,7 @@ Spring Boot Backend
 
 <img width="602" height="607" alt="Ekran görüntüsü 2026-09-28 231747" src="https://github.com/user-attachments/assets/48c4ad93-5709-4ed6-b8e0-4fe1743e72a1" />
 
-
-<img width="781" height="747" alt="Ekran görüntüsü 2026-09-28 232000" src="https://github.com/user-attachments/assets/c8deec41-ebb9-4b30-97eb-f381a532b33c" />
+<img width="632" height="512" alt="Ekran görüntüsü 2026-09-28 231841" src="https://github.com/user-attachments/assets/af61cfc1-ad68-4d9e-970d-9d24b7e7a7d8" />
 
 
 ## Technologies
